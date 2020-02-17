@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: machines
+#
+#  id          :integer          not null, primary key
+#  name        :string
+#  input_count :integer          default("0"), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  input_count: 1
+
+two:
+  name: MyString
+  input_count: 1

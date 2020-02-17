@@ -1,0 +1,19 @@
+<p>
+  <strong>Name:</strong>
+  <%= @recipe.name %>
+</p>
+
+<p>
+  <strong>Output:</strong>
+  <%= link_to pluralize(@recipe.output_amount, @recipe.output.name), @recipe.output %>
+</p>
+
+<p>
+  <strong><%= 'Input'.pluralize @recipe.inputs.size %>:</strong>
+  <% @recipe.recipe_inputs.each do |input| %>
+    <%= link_to pluralize(input.amount, input.name), input %>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_recipe_path(@recipe) %> |
+<%= link_to 'Back', recipes_path %>

@@ -1,0 +1,16 @@
+<p>
+  <strong>Name:</strong>
+  <%= @resource.name %>
+</p>
+
+<div>
+  <p>Recipes</p>
+  <ul>
+    <% @resource.recipes.each do |recipe| %>
+      <li><%= link_to recipe.name, recipe %></li>
+    <% end %>
+  </ul>
+</div>
+
+<%= link_to 'Edit', edit_resource_path(@resource) %> |
+<%= link_to 'Back', resources_path %>

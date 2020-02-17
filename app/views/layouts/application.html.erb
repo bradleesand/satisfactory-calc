@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SatisfactoryCalc</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>SatisfactoryCalc</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<p class="navbar-text float-right">
+  <%= link_to 'home', root_path %>
+  <% if admin_signed_in? %>
+    Logged in as <strong><%= current_admin.email %></strong>.
+    <%= link_to "Logout", destroy_admin_session_path, method: :delete, :class => 'navbar-link' %>
+  <% else %>
+    <%= link_to "Login", new_admin_session_path, :class => 'navbar-link' %>
+  <% end %>
+</p>
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
+
+<%= yield %>
+</body>
 </html>

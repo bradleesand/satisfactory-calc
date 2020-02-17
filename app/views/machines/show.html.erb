@@ -1,0 +1,12 @@
+<p>
+  <strong>Name:</strong>
+  <%= @machine.name %>
+</p>
+
+<p>
+  <strong>Input count:</strong>
+  <%= @machine.input_count %>
+</p>
+
+<%= link_to 'Edit', edit_machine_path(@machine) %> |
+<%= link_to 'Back', machines_path %>

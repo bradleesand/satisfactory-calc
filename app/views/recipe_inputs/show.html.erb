@@ -1,0 +1,17 @@
+<p>
+  <strong>Recipe:</strong>
+  <%= link_to @recipe_input.recipe.name, @recipe_input.recipe %>
+</p>
+
+<p>
+  <strong>Resource:</strong>
+  <%= link_to @recipe_input.resource.name, @recipe_input.resource %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @recipe_input.amount %>
+</p>
+
+<%= link_to 'Edit', edit_recipe_input_path(@recipe_input) %> |
+<%= link_to 'Back', recipe_inputs_path %>

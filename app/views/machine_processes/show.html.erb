@@ -1,0 +1,13 @@
+<p>
+  <strong>Recipe:</strong>
+  <%= link_to @machine_process.recipe.name, @machine_process.recipe %>
+</p>
+
+<p>
+  <strong>Rate:</strong>
+  <%= pluralize @machine_process.rate, 'second' %>
+  <%= @machine_process.per_minute %> / minute
+</p>
+
+<%= link_to 'Edit', edit_machine_process_path(@machine_process) %> |
+<%= link_to 'Back', machine_processes_path %>

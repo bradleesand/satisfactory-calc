@@ -1,0 +1,38 @@
+<%= simple_form_for(@recipe) do |f| %>
+  <% if recipe.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+      <ul>
+        <% recipe.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.input :name %>
+  </div>
+
+  <div class="field">
+    <%= f.input :output_id, label: 'output', collection: Resource.all %>
+  </div>
+
+  <div class="field">
+    <%= f.input :output_amount %>
+  </div>
+
+  <div>
+    <p>Inputs</p>
+    <%= f.simple_fields_for :recipe_inputs do |fi| %>
+      <%= render 'recipe_input_fields', f: fi %>
+    <% end %>
+
+    <%= link_to_add_fields 'Add Input', f, :recipe_inputs %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

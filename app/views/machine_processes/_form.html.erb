@@ -1,0 +1,29 @@
+<%= simple_form_for(@machine_process) do |f| %>
+  <% if machine_process.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(machine_process.errors.count, "error") %> prohibited this machine_process from being saved:</h2>
+
+      <ul>
+      <% machine_process.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.input :machine_id, collection: Machine.all %>
+  </div>
+
+  <div class="field">
+    <%= f.input :recipe_id, collection: Recipe.all %>
+  </div>
+
+  <div class="field">
+    <%= f.input :rate %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Recipe Inputs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Recipe</th>
+      <th>Resource</th>
+      <th>Amount</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @recipe_inputs.each do |recipe_input| %>
+      <tr>
+        <td><%= recipe_input.recipe %></td>
+        <td><%= recipe_input.resource %></td>
+        <td><%= recipe_input.amount %></td>
+        <td><%= link_to 'Show', recipe_input %></td>
+        <td><%= link_to 'Edit', edit_recipe_input_path(recipe_input) %></td>
+        <td><%= link_to 'Destroy', recipe_input, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Recipe Input', new_recipe_input_path %>
