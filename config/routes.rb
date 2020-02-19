@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   resources :resources
   devise_for :admins
   root 'welcome#index'
+
+  get '/calc' => 'welcome#calc', as: :calc
+  post '/calc' => 'welcome#calc'
 end

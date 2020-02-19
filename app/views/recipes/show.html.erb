@@ -5,13 +5,15 @@
 
 <p>
   <strong>Output:</strong>
-  <%= link_to pluralize(@recipe.output_amount, @recipe.output.name), @recipe.output %>
+  <%= @recipe.output_amount %>
+  <%= link_to @recipe.output.name.pluralize(@recipe.output_amount), @recipe.output %>
 </p>
 
 <p>
   <strong><%= 'Input'.pluralize @recipe.inputs.size %>:</strong>
   <% @recipe.recipe_inputs.each do |input| %>
-    <%= link_to pluralize(input.amount, input.name), input %>
+    <%= input.amount %>
+    <%= link_to input.name.pluralize(input.amount), input %>
   <% end %>
 </p>
 

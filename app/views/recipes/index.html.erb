@@ -1,26 +1,39 @@
-<p id="notice"><%= notice %></p>
-
+<% max_input_count = @recipes.map { |r| r.recipe_inputs.count }.max %>
 <h1>Recipes</h1>
 
 <table>
   <thead>
-    <tr>
-      <th>Name</th>
-      <th>Output</th>
-      <th colspan="3"></th>
-    </tr>
+  <tr>
+    <th>Name</th>
+    <th>Output</th>
+    <% max_input_count.times do |idx| %>
+      <th>Input <%= idx + 1 %></th>
+    <% end %>
+    <th colspan="2"></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @recipes.each do |recipe| %>
-      <tr>
-        <td><%= recipe.name %></td>
-        <td><%= link_to recipe.output.name, recipe.output %></td>
-        <td><%= link_to 'Show', recipe %></td>
-        <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
-        <td><%= link_to 'Destroy', recipe, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+  <% @recipes.each do |recipe| %>
+    <tr>
+      <td><%= link_to recipe.name, recipe %></td>
+      <td>
+        <%= recipe.output_amount %>
+        <%= link_to recipe.output.name.pluralize(recipe.output_amount), recipe.output %>
+      </td>
+      <% max_input_count.times do |idx| %>
+        <td>
+          <% input = recipe.recipe_inputs[idx] %>
+          <% if input.present? %>
+            <%= input.amount %>
+            <%= link_to input.name.pluralize(input.amount), input %>
+          <% end %>
+        </td>
+      <% end %>
+      <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
+      <td><%= link_to 'Destroy', recipe, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 
