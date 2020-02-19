@@ -13,5 +13,6 @@
   <%= @recipe_input.amount %>
 </p>
 
+<%= link_to 'Add Another', action: :new %> |
 <%= link_to 'Edit', edit_recipe_input_path(@recipe_input) %> |
 <%= link_to 'Back', recipe_inputs_path %>

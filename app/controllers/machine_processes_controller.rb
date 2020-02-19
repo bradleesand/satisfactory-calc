@@ -4,7 +4,7 @@ class MachineProcessesController < AdminController
   # GET /machine_processes
   # GET /machine_processes.json
   def index
-    @machine_processes = MachineProcess.all
+    @machine_processes = MachineProcess.joins(:machine, recipe: :output).order('machines.input_count', 'recipes.name', 'resources.name')
   end
 
   # GET /machine_processes/1

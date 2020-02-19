@@ -22,7 +22,7 @@ class MachineProcess < ApplicationRecord
   validates :recipe, presence: true
   validates :machine, presence: true
 
-  def per_minute
-    60 / rate * recipe.output_amount
+  def per_minute(amount = recipe.output_amount)
+    60 / rate * amount
   end
 end

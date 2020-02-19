@@ -1,24 +1,44 @@
+<% max_input_count = @machine_processes.joins(:machine).maximum('machines.input_count') %>
 <h1>Machine Processes</h1>
 
 <table>
   <thead>
-    <tr>
-      <th>Machine</th>
-      <th>Recipe</th>
-      <th colspan="3"></th>
-    </tr>
+  <tr>
+    <th>Machine</th>
+    <th>Recipe</th>
+    <th>Output</th>
+    <% max_input_count.times do |idx| %>
+      <th>Input <%= idx + 1 %></th>
+    <% end %>
+    <th colspan="3"></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @machine_processes.each do |machine_process| %>
-      <tr>
-        <td><%= link_to machine_process.machine.name, machine_process.machine %></td>
-        <td><%= link_to machine_process.recipe.name, machine_process.recipe %></td>
-        <td><%= link_to 'Show', machine_process %></td>
-        <td><%= link_to 'Edit', edit_machine_process_path(machine_process) %></td>
-        <td><%= link_to 'Destroy', machine_process, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+  <% @machine_processes.each do |machine_process| %>
+    <tr>
+      <td><%= link_to machine_process.machine.name, machine_process.machine %></td>
+      <td><%= link_to machine_process.recipe.name, machine_process.recipe %></td>
+      <td>
+        <%= machine_process.per_minute %>
+        <%= link_to machine_process.recipe.output.name, machine_process.recipe.output %>
+        / minute
+      </td>
+      <% max_input_count.times do |idx| %>
+        <% input = machine_process.recipe.recipe_inputs[idx] %>
+        <td>
+          <% if input.present? %>
+            <%= machine_process.per_minute input.amount %>
+            <%= link_to input.name, input.resource %>
+            / minute
+          <% end %>
+        </td>
+      <% end %>
+      <td><%= link_to 'Show', machine_process %></td>
+      <td><%= link_to 'Edit', edit_machine_process_path(machine_process) %></td>
+      <td><%= link_to 'Destroy', machine_process, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 
