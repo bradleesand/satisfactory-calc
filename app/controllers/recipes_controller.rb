@@ -14,7 +14,7 @@ class RecipesController < AdminController
 
   # GET /recipes/new
   def new
-    @recipe = Recipe.new
+    @recipe = Recipe.new recipe_params
   end
 
   # GET /recipes/1/edit
@@ -69,6 +69,7 @@ class RecipesController < AdminController
 
     # Only allow a list of trusted parameters through.
     def recipe_params
+      return {} unless params.key? :recipe
       params.require(:recipe).permit(:name, :output_id, :output_amount, recipe_inputs_attributes: [:id, :resource_id, :amount, :_destroy])
     end
 end

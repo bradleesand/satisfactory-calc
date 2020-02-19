@@ -2,21 +2,27 @@
 
 <table>
   <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
+  <tr>
+    <th>Name</th>
+    <th colspan="2"></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @resources.each do |resource| %>
+  <% last_category = nil %>
+  <% @resources.each do |resource| %>
+    <% if resource.category != last_category %>
+      <% last_category = resource.category %>
       <tr>
-        <td><%= resource.name %></td>
-        <td><%= link_to 'Show', resource %></td>
-        <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
-        <td><%= link_to 'Destroy', resource, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th colspan="3"><%= Resource::CATEGORIES[resource.category&.to_sym] || 'Unknown' %></th>
       </tr>
     <% end %>
+    <tr>
+      <td><%= link_to resource.name, resource %></td>
+      <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
+      <td><%= link_to 'Destroy', resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 

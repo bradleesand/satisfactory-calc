@@ -10,6 +10,7 @@
       <li><%= link_to recipe.name, recipe %></li>
     <% end %>
   </ul>
+  <%= link_to 'Add Recipe', new_recipe_path(recipe: {name: @resource.name.pluralize, output_id: @resource}) %>
 </div>
 
 <%= link_to 'Add Another', action: :new %> |

@@ -6,9 +6,39 @@
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  position   :integer
+#  category   :integer
 #
 
 class Resource < ApplicationRecord
+  default_scope { order(:category, :position) }
+
+  CATEGORIES = {
+      ores:             'ores',
+      ingots:           'ingots',
+      standard_parts:   'standard parts',
+      electronics:      'electronics',
+      minerals:         'minerals',
+      biomass:          'biomass',
+      industrial_parts: 'industrial parts',
+      consumed:         'consumed',
+      power_shard:      'power shards',
+      communications:   'communications',
+  }.freeze
+
+  enum category: {
+      ores:             0,
+      ingots:           10,
+      standard_parts:   20,
+      electronics:      30,
+      minerals:         40,
+      biomass:          50,
+      industrial_parts: 60,
+      consumed:         70,
+      power_shard:      80,
+      communications:   90,
+  }
+
   validates :name, presence: true
 
   has_many :recipes, inverse_of: :output, foreign_key: :output_id
