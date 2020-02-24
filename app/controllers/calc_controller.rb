@@ -21,7 +21,7 @@ class CalcController < ApplicationController
         input_amount = amount * input.amount / recipe.output_amount
 
         head << [input_amount, input.resource]
-        @resources[input.resource] += input_amount
+        @resources[input.resource] = @resources.delete(input.resource).to_i + input_amount
       end
     end
   end
