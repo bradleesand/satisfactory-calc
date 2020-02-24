@@ -1,11 +1,12 @@
 <h1>Resources</h1>
 
 <table class="table">
-  <% @resources.group_by(&:category).each do |category, resources| %>
+  <% (Resource.categories.keys + [nil]).each do |category| %>
+    <% resources = Resource.where(category: category) %>
     <thead>
     <tr>
       <th></th>
-      <th colspan="3"><%= Resource::CATEGORIES[category&.to_sym] || 'Unknown' %></th>
+      <th colspan="3"><%= Resource::CATEGORIES.fetch(category&.to_sym, 'Unknown') %></th>
     </tr>
     </thead>
     <tbody class="sortable" data-category="<%= category %>">

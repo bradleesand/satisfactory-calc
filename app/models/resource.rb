@@ -13,7 +13,12 @@
 class Resource < ApplicationRecord
   default_scope { order(:category, :position) }
 
+  after_create_commit do
+    update(position: id) unless position
+  end
+
   CATEGORIES = {
+      nil               => 'none',
       ores:             'ores',
       ingots:           'ingots',
       standard_parts:   'standard parts',

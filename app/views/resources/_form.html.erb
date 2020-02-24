@@ -12,15 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= form.input :name %>
+    <%= form.input :name, autofocus: true %>
   </div>
 
   <div class="field">
     <%= form.input :category, collection: Resource::CATEGORIES.map(&:reverse) %>
-  </div>
-
-  <div class="field">
-    <%= form.input :position %>
   </div>
 
   <div class="actions">
