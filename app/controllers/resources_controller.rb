@@ -14,7 +14,7 @@ class ResourcesController < AdminController
 
   # GET /resources/new
   def new
-    @resource = Resource.new
+    @resource = Resource.new(resource_params(false))
   end
 
   # GET /resources/1/edit
@@ -28,7 +28,14 @@ class ResourcesController < AdminController
 
     respond_to do |format|
       if @resource.save
-        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
+        format.html do
+          redirect_path = if params[:commit].to_s.downcase.include? 'another'
+            new_resource_path
+          else
+            @resource
+          end
+          redirect_to redirect_path, notice: 'Resource was successfully created.'
+        end
         format.json { render :show, status: :created, location: @resource }
       else
         format.html { render :new }
@@ -79,7 +86,8 @@ class ResourcesController < AdminController
   end
 
   # Only allow a list of trusted parameters through.
-  def resource_params
+  def resource_params(require = true)
+    return {} unless require || params.key?(:resource)
     params.require(:resource).permit(:name, :position, :category)
   end
 end

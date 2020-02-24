@@ -14,7 +14,7 @@ class MachineProcessesController < AdminController
 
   # GET /machine_processes/new
   def new
-    @machine_process = MachineProcess.new
+    @machine_process = MachineProcess.new(machine_process_params(false))
   end
 
   # GET /machine_processes/1/edit
@@ -81,7 +81,8 @@ class MachineProcessesController < AdminController
   end
 
   # Only allow a list of trusted parameters through.
-  def machine_process_params
+  def machine_process_params(require = true)
+    return {} unless require || params.key?(:machine_process)
     params.require(:machine_process).permit(:recipe_id, :rate, :machine_id,
                                             recipe_attributes: [:id, :name, :output_id, :output_amount,
                                                                 recipe_inputs_attributes: [:id, :resource_id, :amount]])

@@ -14,6 +14,8 @@ class CalcController < ApplicationController
       amount, @resource = head.pop
       recipe            = @resource.recipes.first # TODO alts?
 
+      next unless recipe
+
       recipe.recipe_inputs.includes(:resource).each do |input|
         input_amount = amount * input.amount / recipe.output_amount
 

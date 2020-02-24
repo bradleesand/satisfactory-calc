@@ -19,7 +19,7 @@ class Resource < ApplicationRecord
 
   CATEGORIES = {
       nil               => 'none',
-      ores:             'ores',
+      ores:             'raw materials',
       ingots:           'ingots',
       standard_parts:   'standard parts',
       electronics:      'electronics',

@@ -1,7 +1,7 @@
 <% max_input_count = @recipes.map { |r| r.recipe_inputs.count }.max %>
 <h1>Recipes</h1>
 
-<table>
+<table class="table">
   <thead>
   <tr>
     <th>Name</th>
@@ -30,8 +30,13 @@
           <% end %>
         </td>
       <% end %>
-      <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
-      <td><%= link_to 'Destroy', recipe, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+      <td>
+        <div class="btn-group">
+          <%= link_to fa_icon('plus'), new_machine_process_path(machine_process: {recipe_id: recipe}), class: 'btn btn-sm btn-warning' if recipe.machine_processes.none? %>
+          <%= link_to fa_icon('pencil'), edit_recipe_path(recipe), class: 'btn btn-sm btn-secondary' %>
+          <%= link_to fa_icon('times'), recipe, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-sm btn-danger' %>
+        </div>
+      </td>
     </tr>
   <% end %>
   </tbody>

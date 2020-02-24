@@ -1,5 +1,7 @@
 <%= form_tag(calc_path) do %>
-  <%= select_tag :resource, options_from_collection_for_select(Resource.all, :id, :name, @resource) %>
+  <%= select_tag :resource, option_groups_from_collection_for_select(
+      Resource.all.group_by(&:category).transform_keys { |c| Resource.category_name(c) },
+      :second, :first, :id, :name, @resource) %>
   <%= number_field_tag :amount, @amount %>
   <%= submit_tag 'Calc' %>
 <% end %>

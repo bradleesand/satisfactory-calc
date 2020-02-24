@@ -8,6 +8,7 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= yield :javascripts %>
 </head>
 
 <body>
@@ -20,6 +21,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <%= nav_item root_path, 'Home' %>
+      <%= nav_item machines_path, 'Machines' %>
+      <%= nav_item resources_path, 'Resources' %>
+      <%= nav_item recipes_path, 'Recipes' %>
+      <%= nav_item machine_processes_path, 'Machine Processes' %>
     </ul>
     <span class="navbar-text">
       <% if admin_signed_in? %>
@@ -42,6 +47,5 @@
   <%= yield %>
 </div>
 
-<%= yield :javascripts %>
 </body>
 </html>

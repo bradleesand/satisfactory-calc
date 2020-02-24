@@ -17,5 +17,5 @@ Rails.application.routes.draw do
   get '/calc' => 'calc#calc', as: :calc
   post '/calc' => 'calc#calc'
 
-  root 'calc#index'
+  root 'calc#calc'
 end
