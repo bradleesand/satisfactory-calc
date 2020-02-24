@@ -8,7 +8,7 @@ $(function () {
         const sortableUrl = $this.data('sortableUrl'),
             authToken = $this.data('authToken');
         if (sortableUrl) {
-            options.onEnd = function (evt) {
+            options.onEnd = function () {
                 const arr = $this.sortable('toArray');
                 $.ajax({
                     method: 'PUT',
