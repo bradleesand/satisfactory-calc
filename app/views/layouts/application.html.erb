@@ -11,15 +11,26 @@
 </head>
 
 <body>
-<%= link_to 'home', root_path %>
-<p class="navbar-text float-right">
-  <% if admin_signed_in? %>
-    Logged in as <strong><%= current_admin.email %></strong>.
-    <%= link_to "Logout", destroy_admin_session_path, method: :delete, class: 'navbar-link' %>
-  <% else %>
-    <%= link_to "Login", new_admin_session_path, class: 'navbar-link' %>
-  <% end %>
-</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="<%= root_path %>">Satisfactory Calc</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <%= nav_item root_path, 'Home' %>
+    </ul>
+    <span class="navbar-text">
+      <% if admin_signed_in? %>
+        Logged in as <strong><%= current_admin.email %></strong>.
+        <%= link_to "Logout", destroy_admin_session_path, method: :delete, class: 'navbar-link' %>
+      <% else %>
+        <%= link_to "Login", new_admin_session_path, class: 'navbar-link' %>
+      <% end %>
+    </span>
+  </div>
+</nav>
 <% if notice %>
   <p class="alert alert-success"><%= notice %></p>
 <% end %>
@@ -27,7 +38,9 @@
   <p class="alert alert-danger"><%= alert %></p>
 <% end %>
 
-<%= yield %>
+<div class="container">
+  <%= yield %>
+</div>
 
 <%= yield :javascripts %>
 </body>

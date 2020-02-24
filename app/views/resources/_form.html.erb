@@ -16,7 +16,7 @@
   </div>
 
   <div class="field">
-    <%= form.input :category, collection: Resource::CATEGORIES.map(&:reverse) %>
+    <%= form.input :category, collection: Resource::CATEGORIES.map(&:reverse), include_blank: false %>
   </div>
 
   <div class="actions">

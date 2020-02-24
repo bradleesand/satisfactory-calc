@@ -1,0 +1,11 @@
+<%= render 'calc' %>
+<% if @resources.present? %>
+  <ul>
+    <% @resources.each do |resource, amount| %>
+      <li>
+        <%= amount %>
+        <%= link_to resource.name.pluralize(amount), resource %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

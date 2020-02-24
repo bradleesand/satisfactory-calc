@@ -9,8 +9,9 @@ Rails.application.routes.draw do
     end
   end
   devise_for :admins
-  root 'welcome#index'
 
-  get '/calc' => 'welcome#calc', as: :calc
-  post '/calc' => 'welcome#calc'
+  get '/calc' => 'calc#calc', as: :calc
+  post '/calc' => 'calc#calc'
+
+  root 'calc#index'
 end

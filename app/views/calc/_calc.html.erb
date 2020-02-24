@@ -1,0 +1,5 @@
+<%= form_tag(calc_path) do %>
+  <%= select_tag :resource, options_from_collection_for_select(Resource.all, :id, :name, @resource) %>
+  <%= number_field_tag :amount, @amount %>
+  <%= submit_tag 'Calc' %>
+<% end %>
