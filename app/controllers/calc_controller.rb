@@ -9,6 +9,7 @@ class CalcController < ApplicationController
     @resources = {
         @resource => @amount
     }
+    @resources.default = 0
 
     while head.present?
       amount, @resource = head.pop
@@ -20,7 +21,7 @@ class CalcController < ApplicationController
         input_amount = amount * input.amount / recipe.output_amount
 
         head << [input_amount, input.resource]
-        @resources[input.resource] = input_amount
+        @resources[input.resource] += input_amount
       end
     end
   end
