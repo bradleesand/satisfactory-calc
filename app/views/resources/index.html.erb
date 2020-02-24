@@ -6,7 +6,7 @@
     <thead>
     <tr>
       <th></th>
-      <th colspan="3"><%= Resource::CATEGORIES.fetch(category&.to_sym, 'Unknown') %></th>
+      <th colspan="3"><%= Resource.category_name category %></th>
     </tr>
     </thead>
     <tbody class="sortable" data-category="<%= category %>">

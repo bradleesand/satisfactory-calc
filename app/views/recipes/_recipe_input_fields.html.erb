@@ -1,9 +1,10 @@
 <% f = f %>
+<% allow_remove = allow_remove != false %>
 
 <div class="recipe_input_fields">
 <%= f.input :resource_id, collection: Resource.all %>
 
 <%= f.input :amount %>
 
-<%= link_to_remove_fields 'remove', f, 'data-target' => '.recipe_input_fields' %>
+  <%= link_to_remove_fields 'remove', f, 'data-target' => '.recipe_input_fields' if allow_remove %>
 </div>

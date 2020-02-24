@@ -4,7 +4,7 @@ class MachineProcessesController < AdminController
   # GET /machine_processes
   # GET /machine_processes.json
   def index
-    @machine_processes = MachineProcess.joins(:machine, recipe: :output).order('machines.input_count', 'recipes.name', 'resources.name')
+    @machine_processes = MachineProcess.joins(recipe: :output).merge(Resource.all)
   end
 
   # GET /machine_processes/1
@@ -61,14 +61,29 @@ class MachineProcessesController < AdminController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_machine_process
-      @machine_process = MachineProcess.find(params[:id])
+  def recipe_form
+    @recipe = if params.key? :recipe_id
+      Recipe.find_by id: params[:recipe_id]
+    else
+      Recipe.new do |r|
+        params[:input_count].to_i.times { r.recipe_inputs.build } if params.key? :input_count
+      end
     end
 
-    # Only allow a list of trusted parameters through.
-    def machine_process_params
-      params.require(:machine_process).permit(:recipe_id, :rate, :machine_id)
-    end
+    render layout: false
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_machine_process
+    @machine_process = MachineProcess.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def machine_process_params
+    params.require(:machine_process).permit(:recipe_id, :rate, :machine_id,
+                                            recipe_attributes: [:id, :name, :output_id, :output_amount,
+                                                                recipe_inputs_attributes: [:id, :resource_id, :amount]])
+  end
 end

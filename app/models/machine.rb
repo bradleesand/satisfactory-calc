@@ -14,4 +14,8 @@ class Machine < ApplicationRecord
 
   validates :name, presence: true
   validates :input_count, numericality: {greater_than_or_equal_to: 0}
+
+  def options_for_select
+    [name, id, data: {inputs: input_count}]
+  end
 end

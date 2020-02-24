@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :machine_processes
+  resources :machine_processes do
+    collection do
+      post :recipe_form
+    end
+  end
   resources :machines
   resources :recipe_inputs
   resources :recipes

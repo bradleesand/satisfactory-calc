@@ -1,0 +1,26 @@
+<% f = f %>
+
+<%= f.input :id, as: :hidden %>
+
+<div class="field">
+  <%= f.input :name %>
+</div>
+
+<div class="field">
+  <%= f.input :output_id, label: 'output', collection: Resource.all %>
+</div>
+
+<div class="field">
+  <%= f.input :output_amount %>
+</div>
+
+<% if f.object.recipe_inputs.any? %>
+  <div>
+    <strong>Inputs</strong>
+    <div id="recipe_input_fields">
+      <%= f.simple_fields_for :recipe_inputs do |fi| %>
+        <%= render 'recipes/recipe_input_fields', f: fi, allow_remove: false %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

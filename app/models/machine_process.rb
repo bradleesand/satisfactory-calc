@@ -22,7 +22,12 @@ class MachineProcess < ApplicationRecord
   validates :recipe, presence: true
   validates :machine, presence: true
 
-  def per_minute(amount = recipe.output_amount)
+  accepts_nested_attributes_for :recipe
+
+  delegate :output, :output_amount, to: :recipe
+  delegate :category, to: :output
+
+  def per_minute(amount = output_amount)
     60 / rate * amount
   end
 end

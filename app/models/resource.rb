@@ -51,4 +51,8 @@ class Resource < ApplicationRecord
   has_many :recipes, inverse_of: :output, foreign_key: :output_id
   has_many :recipe_inputs
   has_many :used_in_recipes, through: :recipe_inputs, source: :recipe, class_name: 'Recipe'
+
+  def self.category_name(category)
+    CATEGORIES.fetch(category&.to_sym, 'unknown').titleize
+  end
 end

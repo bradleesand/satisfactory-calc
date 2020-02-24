@@ -4,26 +4,70 @@
       <h2><%= pluralize(machine_process.errors.count, "error") %> prohibited this machine_process from being saved:</h2>
 
       <ul>
-      <% machine_process.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% machine_process.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="field">
-    <%= f.input :machine_id, collection: Machine.all %>
-  </div>
-
-  <div class="field">
-    <%= f.input :recipe_id, collection: Recipe.all %>
+    <%= f.input :machine_id, collection: Machine.all.map(&:options_for_select), include_blank: false %>
   </div>
 
   <div class="field">
     <%= f.input :rate %>
   </div>
 
+  <div class="field">
+    <%= f.input :recipe_id, collection: Recipe.all.map(&:options_for_select), prompt: 'Create New' %>
+  </div>
+
+  <div id="recipe_fields">
+    <%= f.simple_fields_for :recipe do |ff| %>
+      <%= render 'recipe_fields', f: ff %>
+    <% end %>
+  </div>
+
+  <% content_for :javascripts do %>
+    <script>
+        $(function () {
+            function updateRecipe() {
+                const $select = $('#machine_process_recipe_id');
+
+                const data = {authenticity_token: '<%= j form_authenticity_token(form_options: {action: recipe_form_machine_processes_path, method: 'post'}) %>'};
+
+                if ($select.val()) {
+                    data.recipe_id = $select.val();
+                } else {
+                    data.input_count = $('#machine_process_machine_id option:selected').data('inputs');
+                }
+
+                $('#recipe_fields').load("<%= j recipe_form_machine_processes_path %>", data);
+            }
+
+            function checkMachineInputs() {
+                const inputs = $('#machine_process_machine_id option:selected').data('inputs');
+
+                $('#machine_process_recipe_id option').prop('disabled', true);
+                $('#machine_process_recipe_id option[data-inputs=' + inputs + ']').prop('disabled', false);
+                $('#machine_process_recipe_id option[value=""]').prop('disabled', false);
+
+                if ($('#machine_process_recipe_id').val() === '') {
+                    updateRecipe();
+                }
+            }
+
+            $(document).on('change', '#machine_process_machine_id', checkMachineInputs);
+            $(document).on('change', '#machine_process_recipe_id', updateRecipe);
+
+            checkMachineInputs();
+            updateRecipe();
+        });
+    </script>
+  <% end %>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -1,0 +1,5 @@
+<%= simple_fields_for :machine_process do |f| %>
+  <%= f.simple_fields_for :recipe_attributes, @recipe do |ff| %>
+    <%= render 'recipe_fields', f: ff %>
+  <% end %>
+<% end %>

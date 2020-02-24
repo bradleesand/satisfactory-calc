@@ -55,4 +55,8 @@ module ApplicationHelper
       end
     end
   end
+
+  def link_to_pluralized_object(amount, object)
+    safe_join([amount, link_to(object.name.pluralize(amount), object)], ' ')
+  end
 end
