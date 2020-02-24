@@ -24,6 +24,7 @@ class Resource < ApplicationRecord
       consumed:         'consumed',
       power_shard:      'power shards',
       communications:   'communications',
+      space_elevator:   'space elevator',
   }.freeze
 
   enum category: {
@@ -37,6 +38,7 @@ class Resource < ApplicationRecord
       consumed:         70,
       power_shard:      80,
       communications:   90,
+      space_elevator:   100,
   }
 
   validates :name, presence: true

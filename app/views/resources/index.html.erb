@@ -1,31 +1,28 @@
 <h1>Resources</h1>
 
-<table>
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th colspan="2"></th>
-  </tr>
-  </thead>
-
-  <tbody>
-  <% last_category = nil %>
-  <% @resources.each do |resource| %>
-    <% if resource.category != last_category %>
-      <% last_category = resource.category %>
-      <tr>
-        <th colspan="3"><%= Resource::CATEGORIES[resource.category&.to_sym] || 'Unknown' %></th>
+<table class="table">
+  <% @resources.group_by(&:category).each do |category, resources| %>
+    <thead>
+    <tr>
+      <th></th>
+      <th colspan="3"><%= Resource::CATEGORIES[category&.to_sym] || 'Unknown' %></th>
+    </tr>
+    </thead>
+    <tbody class="sortable"
+           data-sortable-url="<%= reorder_resources_path %>"
+           data-auth-token="<%= form_authenticity_token(form_options: {action: reorder_resources_path, method: 'put'}) %>">
+    <% resources.each do |resource| %>
+      <tr class="item" data-id="<%= resource.id %>">
+        <td><%= fa_icon 'bars', class: 'handle' %></td>
+        <td><%= link_to resource.name, resource %></td>
+        <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
+        <td><%= link_to 'Destroy', resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
       </tr>
     <% end %>
-    <tr>
-      <td><%= link_to resource.name, resource %></td>
-      <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
-      <td><%= link_to 'Destroy', resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
-    </tr>
+    </tbody>
   <% end %>
-  </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Resource', new_resource_path %>
+<%= link_to 'New Resource', new_resource_path, class: 'btn btn-primary' %>

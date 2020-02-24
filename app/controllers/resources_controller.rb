@@ -61,14 +61,24 @@ class ResourcesController < AdminController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_resource
-      @resource = Resource.find(params[:id])
+  def reorder
+    Resource.transaction do
+      resource_ids = params[:ids]
+      Resource.update(resource_ids, resource_ids.map.with_index { |_, pos| {position: pos} })
     end
 
-    # Only allow a list of trusted parameters through.
-    def resource_params
-      params.require(:resource).permit(:name, :position, :category)
-    end
+    head :ok
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_resource
+    @resource = Resource.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def resource_params
+    params.require(:resource).permit(:name, :position, :category)
+  end
 end

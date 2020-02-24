@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   resources :machines
   resources :recipe_inputs
   resources :recipes
-  resources :resources
+  resources :resources do
+    collection do
+      put :reorder
+    end
+  end
   devise_for :admins
   root 'welcome#index'
 

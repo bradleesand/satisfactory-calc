@@ -32,6 +32,7 @@ gem 'annotate'
 gem 'simple_form'
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.4.1'
+gem "font-awesome-rails"
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
