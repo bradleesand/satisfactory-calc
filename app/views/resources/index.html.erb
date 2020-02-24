@@ -8,9 +8,7 @@
       <th colspan="3"><%= Resource::CATEGORIES[category&.to_sym] || 'Unknown' %></th>
     </tr>
     </thead>
-    <tbody class="sortable"
-           data-sortable-url="<%= reorder_resources_path %>"
-           data-auth-token="<%= form_authenticity_token(form_options: {action: reorder_resources_path, method: 'put'}) %>">
+    <tbody class="sortable" data-category="<%= category %>">
     <% resources.each do |resource| %>
       <tr class="item" data-id="<%= resource.id %>">
         <td><%= fa_icon 'bars', class: 'handle' %></td>
@@ -25,4 +23,35 @@
 
 <br>
 
-<%= link_to 'New Resource', new_resource_path, class: 'btn btn-primary' %>
+<%= link_to fa_icon('plus', text: 'New Resource'), new_resource_path, class: 'btn btn-primary' %>
+
+<% content_for :javascripts do %>
+  <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+  <%= javascript_include_tag "//cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js" %>
+  <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/jquery-sortablejs) -->
+  <%= javascript_include_tag "//cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.min.js" %>
+
+  <script>
+      $(function () {
+          $('.sortable').sortable({
+              draggable: '.item',
+              handle: '.handle',
+              group: 'resources',
+              onEnd: function (evt) {
+                  const to = evt.to,
+                      category = $(to).data('category'),
+                      arr = $(to).sortable('toArray');
+                  $.ajax({
+                      method: 'PUT',
+                      url: "<%= j reorder_resources_path %>",
+                      data: {
+                          authenticity_token: "<%= j form_authenticity_token(form_options: {action: reorder_resources_path, method: 'put'}) %>",
+                          category: category,
+                          ids: arr
+                      }
+                  });
+              },
+          });
+      });
+  </script>
+<% end %>

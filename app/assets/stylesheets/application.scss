@@ -14,3 +14,11 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
 @import "font-awesome";
+
+.handle {
+  cursor: move;
+}
+
+.item.sortable-chosen {
+  background-color: gold;
+}

@@ -64,7 +64,8 @@ class ResourcesController < AdminController
   def reorder
     Resource.transaction do
       resource_ids = params[:ids]
-      Resource.update(resource_ids, resource_ids.map.with_index { |_, pos| {position: pos} })
+      category     = params[:category]
+      Resource.update(resource_ids, resource_ids.map.with_index { |_, pos| {position: pos, **({category: category}.compact)} })
     end
 
     head :ok
