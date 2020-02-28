@@ -34,6 +34,7 @@ gem 'jquery-rails'
 gem 'bootstrap', '~> 4.4.1'
 gem "font-awesome-rails"
 gem 'lodash-rails'
+gem 'd3-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

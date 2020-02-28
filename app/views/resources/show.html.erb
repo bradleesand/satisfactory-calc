@@ -3,6 +3,12 @@
   <%= @resource.name %>
 </p>
 
+<%= form_with(url: calc_path, local: true) do %>
+  <%= hidden_field_tag :resource, @resource.id %>
+  <%= number_field_tag :amount, 1 %>
+  <%= submit_tag 'Calc' %>
+<% end %>
+
 <div>
   <p>Recipes</p>
   <ul>

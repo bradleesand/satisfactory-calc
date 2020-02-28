@@ -16,4 +16,5 @@
 //= require jquery
 //= require bootstrap
 //= require lodash
+//= require d3
 //= require_tree .

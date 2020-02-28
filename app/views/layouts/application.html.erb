@@ -8,6 +8,13 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+  <%= javascript_include_tag "//cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js" %>
+  <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/jquery-sortablejs) -->
+  <%= javascript_include_tag "//cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.min.js" %>
+
+  <script src="//unpkg.com/d3-dag@0.2.3"></script>
   <%= yield :javascripts %>
 </head>
 

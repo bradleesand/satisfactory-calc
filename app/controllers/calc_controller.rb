@@ -5,15 +5,24 @@ class CalcController < ApplicationController
     @amount   = params.fetch(:amount).to_i
     @resource = Resource.find params[:resource]
 
-    head       = [[@amount, @resource]]
-    @resources = {
-        @resource => @amount
+    head                    = [[@amount, @resource]]
+    @resources              = {
+        @resource => {
+            id:     @resource.id,
+            amount: @amount
+        }
     }
-    @resources.default = 0
+    @resources.default_proc = ->(h, k) do
+      h[k] = {
+          id:        k.id,
+          amount:    0,
+          parentIds: []
+      }
+    end
 
     while head.present?
-      amount, @resource = head.pop
-      recipe            = @resource.recipes.first # TODO alts?
+      amount, resource = head.pop
+      recipe           = resource.recipes.first # TODO alts?
 
       next unless recipe
 
@@ -21,8 +30,14 @@ class CalcController < ApplicationController
         input_amount = amount * input.amount / recipe.output_amount
 
         head << [input_amount, input.resource]
-        @resources[input.resource] = @resources.delete(input.resource).to_i + input_amount
+        node          = @resources[input.resource]
+        node[:amount] += input_amount
+        node[:parentIds] << resource.id
       end
+    end
+
+    @dag_data = @resources.map do |resource, node|
+      node.merge(label: helpers.pluralize(node[:amount], resource.name))
     end
   end
 end

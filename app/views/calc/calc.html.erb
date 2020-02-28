@@ -1,11 +1,23 @@
 <%= render 'calc' %>
 <% if @resources.present? %>
   <ul>
-    <% @resources.each do |resource, amount| %>
+    <% @resources.each do |resource, node| %>
+      <% amount = node[:amount] %>
       <li>
         <%= amount %>
         <%= link_to resource.name.pluralize(amount), resource %>
       </li>
     <% end %>
   </ul>
+
+  <div id="tree"></div>
+
+  <script>
+      $(function () {
+          // noinspection JSAnnotator
+          const dagData = <%= raw json_escape @dag_data.to_json %>;
+
+          const svgNode = drawDag($('#tree'), dagData);
+      });
+  </script>
 <% end %>
