@@ -1,6 +1,7 @@
 $(function () {
     const nodeRadius = 50;
-    const width = 600, height = 800;
+    const width = 1100, height = 800;
+    const padding = 10;
 
     const layering = "Longest Path (fast)";
     const decross = "Two Layer (fast)";
@@ -37,7 +38,7 @@ $(function () {
         const dag = stratify(dagData);
 
         // This code only handles rendering
-        const $svgNode = $(`<svg width=${width} height=${height} viewbox="${-nodeRadius} ${-nodeRadius} ${width + 2 * nodeRadius} ${height + 2 * nodeRadius}"></svg>`);
+        const $svgNode = $(`<svg width=${width} height=${height} viewbox="${-nodeRadius - padding} ${-nodeRadius - padding} ${width + 2 * nodeRadius + 2 * padding} ${height + 2 * nodeRadius + 2 * padding}"></svg>`);
         const svgNode = $svgNode[0];
 
         $parent.append(svgNode);
@@ -84,19 +85,6 @@ $(function () {
                 return `url(#${gradId})`;
             });
 
-        // Select nodes
-        const nodes = svgSelection.append('g')
-            .selectAll('g')
-            .data(dag.descendants())
-            .enter()
-            .append('g')
-            .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
-
-        // Plot node circles
-        nodes.append('circle')
-            .attr('r', nodeRadius)
-            .attr('fill', n => colorMap[n.id]);
-
         const arrow = d3.symbol().type(d3.symbolTriangle).size(nodeRadius * nodeRadius / 5.0);
         svgSelection.append('g')
             .selectAll('path')
@@ -122,11 +110,32 @@ $(function () {
             .attr('stroke', 'white')
             .attr('stroke-width', 1.5);
 
+        // Select nodes
+        const nodes = svgSelection.append('g')
+            .selectAll('g')
+            .data(dag.descendants())
+            .enter()
+            .append('g')
+            .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
+
+        // Plot node circles
+        nodes.append('circle')
+            .attr('r', nodeRadius)
+            .attr('fill', n => colorMap[n.id]);
+
         // Add text to nodes
-        nodes.append('a')
-            .attr('href', d => `/resources/${d.id}`)
-            .append('text')
-            .text(d => d.data.label)
+        const links = nodes.append('a').attr('href', d => d.data.link);
+
+        links.append('text')
+            .text(d => _.split(d.data.label, "\n")[0])
+            .attr('font-weight', 'bold')
+            .attr('font-family', 'sans-serif')
+            .attr('text-anchor', 'middle')
+            .attr('alignment-baseline', 'middle')
+            .attr('fill', 'black');
+
+        links.append('text').attr('dy', '1em')
+            .text(d => _.split(d.data.label, "\n")[1])
             .attr('font-weight', 'bold')
             .attr('font-family', 'sans-serif')
             .attr('text-anchor', 'middle')

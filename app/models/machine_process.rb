@@ -24,7 +24,7 @@ class MachineProcess < ApplicationRecord
 
   accepts_nested_attributes_for :recipe
 
-  delegate :output, :output_amount, to: :recipe
+  delegate :output, :output_amount, :name, to: :recipe
   delegate :category, to: :output
 
   def per_minute(amount = output_amount)

@@ -1,13 +1,25 @@
 <%= render 'calc' %>
-<% if @resources.present? %>
-  <div id="tree"></div>
+<% if @resource_tree.present? %>
+  <div id="resource-tree"></div>
 
   <script>
       $(function () {
           // noinspection JSAnnotator
-          const dagData = <%= raw json_escape @dag_data.to_json %>;
+          const dagData = <%= raw json_escape @resource_tree.to_json %>;
 
-          const svgNode = drawDag($('#tree'), dagData);
+          const svgNode = drawDag($('#resource-tree'), dagData);
+      });
+  </script>
+<% end %>
+<% if @process_tree.present? %>
+  <div id="process-tree"></div>
+
+  <script>
+      $(function () {
+          // noinspection JSAnnotator
+          const dagData = <%= raw json_escape @process_tree.to_json %>;
+
+          const svgNode = drawDag($('#process-tree'), dagData);
       });
   </script>
 <% end %>
