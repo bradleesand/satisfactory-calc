@@ -27,7 +27,7 @@ class CalcController < ApplicationController
       next unless recipe
 
       recipe.recipe_inputs.includes(:resource).each do |input|
-        input_amount = amount * input.amount / recipe.output_amount
+        input_amount = amount * input.amount / BigDecimal.new(recipe.output_amount)
 
         head << [input_amount, input.resource]
         node          = @resources[input.resource]
@@ -37,7 +37,16 @@ class CalcController < ApplicationController
     end
 
     @dag_data = @resources.map do |resource, node|
-      node.merge(label: helpers.pluralize(node[:amount], resource.name))
+      amount = node[:amount]
+      name   = resource.name.pluralize(amount)
+
+      amount = if amount == amount.to_i
+        amount.to_i
+      else
+        amount.truncate(2)
+      end
+
+      node.merge(label: "#{amount} #{name}")
     end
   end
 end

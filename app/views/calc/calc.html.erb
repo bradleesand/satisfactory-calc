@@ -1,15 +1,5 @@
 <%= render 'calc' %>
 <% if @resources.present? %>
-  <ul>
-    <% @resources.each do |resource, node| %>
-      <% amount = node[:amount] %>
-      <li>
-        <%= amount %>
-        <%= link_to resource.name.pluralize(amount), resource %>
-      </li>
-    <% end %>
-  </ul>
-
   <div id="tree"></div>
 
   <script>
