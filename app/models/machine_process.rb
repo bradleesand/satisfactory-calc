@@ -28,6 +28,6 @@ class MachineProcess < ApplicationRecord
   delegate :category, to: :output
 
   def per_minute(amount = output_amount)
-    60 / rate * amount
+    60 * amount / BigDecimal.new(rate)
   end
 end
