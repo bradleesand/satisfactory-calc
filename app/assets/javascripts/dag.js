@@ -4,8 +4,8 @@ $(function () {
     const padding = 10;
 
     const layering = "Longest Path (fast)";
-    const decross = "Two Layer (fast)";
-    const coord = "Center (fast)";
+    const decross = "Optimal (slow)";
+    const coord = "Greedy (medium)";
 
     const layerings = {
         "Simplex (slow)": d3.layeringSimplex(),

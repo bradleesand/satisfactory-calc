@@ -17,7 +17,7 @@ class SatisfactoryCalculator
     def as_json(options = nil)
       name = resource.name.pluralize(amount)
 
-      label = "#{BigDecimalFormatter.new(amount)} #{name}"
+      label = "#{FormattedBigDecimal.new(amount)} #{name}"
 
       # super(options).merge(
       {
@@ -74,12 +74,12 @@ class SatisfactoryCalculator
       machine_count = amount_per_minute / BigDecimal.new(process.per_minute)
 
       machine_name   = process.machine.name.pluralize(machine_count)
-      machines_label = "#{BigDecimalFormatter.new(machine_count)} #{machine_name}"
+      machines_label = "#{FormattedBigDecimal.new(machine_count)} #{machine_name}"
 
       resource_name  = process.output.name.pluralize(amount_per_minute)
-      resource_laabl = "#{BigDecimalFormatter.new(amount_per_minute)} #{resource_name}"
+      resource_label = "#{FormattedBigDecimal.new(amount_per_minute)} #{resource_name}"
 
-      label = "#{machines_label}\n(#{resource_laabl})"
+      label = "#{machines_label}\n(#{resource_label})"
 
       {
           id:        process.id,

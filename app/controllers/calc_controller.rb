@@ -2,7 +2,7 @@ class CalcController < ApplicationController
   def calc
     return render unless params.key?(:resource) && params.key?(:amount)
 
-    @amount   = params.fetch(:amount).to_i
+    @amount = BigDecimal.new(params.fetch(:amount))
     @resource = Resource.find params[:resource]
 
     # @resource_tree = SatisfactoryCalculator.resource_tree(@amount, @resource).values
