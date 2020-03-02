@@ -9,9 +9,9 @@
 
 <p>
   <strong>Output: </strong>
-  <%= @machine_process.per_minute %>
-  <%= link_to @machine_process.recipe.output.name, @machine_process.recipe.output %>
+  <%= link_to_pluralized_object @machine_process.per_minute, @machine_process.recipe.output %>
   / minute
+  <%= link_to fa_icon('calculator'), calc_path(amount: @machine_process.per_minute, resource: @machine_process.recipe.output), class: 'btn btn-sm btn-info' %>
 </p>
 
 <p>
@@ -19,8 +19,7 @@
 </p>
 <% @machine_process.recipe.recipe_inputs.each do |input| %>
   <p>
-    <%= @machine_process.per_minute input.amount %>
-    <%= link_to input.name, input.resource %>
+    <%= link_to_pluralized_object @machine_process.per_minute(input.amount), input.resource %>
     / minute
   </p>
 <% end %>
