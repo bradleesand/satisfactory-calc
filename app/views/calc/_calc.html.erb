@@ -2,6 +2,6 @@
   <%= select_tag :resource, option_groups_from_collection_for_select(
       Resource.all.group_by(&:category).transform_keys { |c| Resource.category_name(c) },
       :second, :first, :id, :name, @resource&.id) %>
-  <%= number_field_tag :amount, @amount || 1 %>
+  <%= number_field_tag :amount, @amount || 1, step: :any %>
   <%= submit_tag 'Calc' %>
 <% end %>
