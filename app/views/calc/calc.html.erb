@@ -1,8 +1,8 @@
 <%= render 'calc' %>
 <% if @resource_tree.present? %>
   <div id="resource-tree"></div>
-  <%= tag(:div, id: 'resource-tree', data: {dag: @resource_tree.as_json}) %>
+  <%= react_component 'ResourceGraph', dagData: @resource_tree.as_json %>
 <% end %>
 <% if @process_tree.present? %>
-  <%= tag(:div, id: 'process-tree', data: {dag: @process_tree.as_json}) %>
+  <%= react_component 'ResourceGraph', dagData: @process_tree.as_json %>
 <% end %>

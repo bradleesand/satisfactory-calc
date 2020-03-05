@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
-import drawDag from './drawDag';
+import drawDag from '../packs/drawDag';
 import rd3 from 'react-d3-library';
 
 const RD3Component = rd3.Component;
@@ -11,13 +10,12 @@ class ResourceGraph extends React.Component {
         super(props);
 
         this.state = {
-            dagData: $('#process-tree').data('dag'),
             d3: ''
         };
     }
 
     componentDidMount() {
-        this.setState({d3: drawDag(document.createElement('div'), this.state.dagData)});
+        this.setState({d3: drawDag(document.createElement('div'), this.props.dagData)});
     }
 
     render() {
@@ -30,6 +28,8 @@ class ResourceGraph extends React.Component {
 }
 
 ResourceGraph.propTypes = {
+    dagData: PropTypes.array, // TODO spec
+
     nodeRadius: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
@@ -43,10 +43,3 @@ ResourceGraph.defaultProps = {
 };
 
 export default ResourceGraph
-
-document.addEventListener('DOMContentLoaded', () => {
-    const parent = document.getElementById('process-tree');
-    if (parent) {
-        ReactDOM.render(<ResourceGraph/>, parent);
-    }
-});
