@@ -3,20 +3,6 @@ import * as d3_dag from 'd3-dag';
 
 const d3 = Object.assign({}, d3_base, d3_dag);
 
-const nodeRadius = 50;
-const width = 1100, height = 800;
-const padding = 10;
-const viewBox = [
-    -nodeRadius - padding,
-    -nodeRadius - padding,
-    width + (2 * nodeRadius) + (2 * padding),
-    height + (2 * nodeRadius) + (2 * padding),
-].join(' ');
-
-const layering = "Longest Path (fast)";
-const decross = "Optimal (slow)";
-const coord = "Greedy (medium)";
-
 const layerings = {
     "Simplex (slow)": d3.layeringSimplex(),
     "Longest Path (fast)": d3.layeringLongestPath(),
@@ -38,13 +24,24 @@ const coords = {
 
 const stratify = d3.dagStratify();
 
-const layout = d3.sugiyama()
-    .size([width, height])
-    .layering(layerings[layering])
-    .decross(decrossings[decross])
-    .coord(coords[coord]);
+const drawDag = function (parent, dagData, {nodeRadius = 50, width = 1100, height = 800, padding = 10,}) {
+    const viewBox = [
+        -nodeRadius - padding,
+        -nodeRadius - padding,
+        width + (2 * nodeRadius) + (2 * padding),
+        height + (2 * nodeRadius) + (2 * padding),
+    ].join(' ');
 
-const drawDag = function (parent, dagData) {
+    const layering = "Longest Path (fast)";
+    const decross = "Optimal (slow)";
+    const coord = "Greedy (medium)";
+
+    const layout = d3.sugiyama()
+        .size([width, height])
+        .layering(layerings[layering])
+        .decross(decrossings[decross])
+        .coord(coords[coord]);
+
     const svgSelection = d3.select(parent).append('svg')
         .attr('width', width)
         .attr('height', height)
