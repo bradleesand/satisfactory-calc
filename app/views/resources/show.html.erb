@@ -22,3 +22,5 @@
 <%= link_to 'Add Another', action: :new %> |
 <%= link_to 'Edit', edit_resource_path(@resource) %> |
 <%= link_to 'Back', resources_path %>
+
+<%= react_component 'ResourceCalc', resourceId: @resource.id, treePath: resource_tree_resource_path(@resource) %>

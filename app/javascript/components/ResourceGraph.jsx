@@ -31,7 +31,6 @@ class ResourceGraph extends React.Component {
     }
 
     updateDag() {
-        console.debug('updateDag()');
         let d3 = this.state.d3;
         if (d3) {
             d3.removeChild(d3.firstChild);

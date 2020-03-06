@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     collection do
       put :reorder
     end
+    member do
+      get :resource_tree
+      get :process_tree
+    end
   end
   devise_for :admins
 

@@ -1,5 +1,5 @@
 class ResourcesController < AdminController
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :set_resource, only: [:show, :edit, :update, :destroy, :process_tree, :resource_tree]
 
   # GET /resources
   # GET /resources.json
@@ -76,6 +76,18 @@ class ResourcesController < AdminController
     end
 
     head :ok
+  end
+
+  def resource_tree
+    @amount        = BigDecimal.new(params[:amount] || 1)
+    @resource_tree = SatisfactoryCalculator.resource_tree(@amount, @resource).values
+    render json: @resource_tree
+  end
+
+  def process_tree
+    @amount       = BigDecimal.new(params[:amount] || 1)
+    @process_tree = SatisfactoryCalculator.process_tree(@amount, @resource).values
+    render json: @process_tree
   end
 
   private
