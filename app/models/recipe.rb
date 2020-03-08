@@ -17,7 +17,7 @@
 class Recipe < ApplicationRecord
   belongs_to :output, class_name: 'Resource', foreign_key: :output_id
 
-  has_many :machine_processes
+  has_one :machine_process
   has_many :recipe_inputs, dependent: :destroy
   has_many :inputs, through: :recipe_inputs, source: :resource, class_name: 'Resource'
 

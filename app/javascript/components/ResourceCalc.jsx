@@ -22,7 +22,9 @@ class ResourceCalc extends React.Component {
     }
 
     getDag() {
-        $.getJSON(this.props.treePath, {amount: this.state.amount}, dagData => this.setState({dagData}))
+        if (this.state.amount) {
+            $.getJSON(this.props.treePath, {amount: this.state.amount}, dagData => this.setState({dagData}))
+        }
     }
 
     render() {
@@ -34,8 +36,11 @@ class ResourceCalc extends React.Component {
 
         return (
             <React.Fragment>
-                <input type={'number'} value={this.state.amount} onChange={this.updateAmount.bind(this)}/>
-                {graph}
+                <input type='number' className='form-control col-sm-3' value={this.state.amount}
+                       onChange={this.updateAmount.bind(this)}/>
+                <div className='col-sm-12'>
+                    {graph}
+                </div>
             </React.Fragment>
         );
     }

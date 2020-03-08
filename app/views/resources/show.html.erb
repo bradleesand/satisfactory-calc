@@ -1,26 +1,82 @@
-<p>
-  <strong>Name:</strong>
-  <%= @resource.name %>
-</p>
+<h1>
+  <%= @resource.name %><%= link_to fa_icon('pencil'), edit_resource_path(@resource), class: 'btn btn-sm btn-link' %>
+</h1>
 
-<%= form_with(url: calc_path, local: true) do %>
-  <%= hidden_field_tag :resource, @resource.id %>
-  <%= number_field_tag :amount, 1 %>
-  <%= submit_tag 'Calc' %>
-<% end %>
-
-<div>
-  <p>Recipes</p>
-  <ul>
-    <% @resource.recipes.each do |recipe| %>
-      <li><%= link_to recipe.name, recipe %></li>
-    <% end %>
-  </ul>
-  <%= link_to 'Add Recipe', new_recipe_path(recipe: {name: @resource.name.pluralize, output_id: @resource}) %>
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">
+          Recipes
+          <%= link_to fa_icon('plus'), new_machine_process_path(machine_process: {recipe_attributes: {output_id: @resource}}), class: 'btn btn-sm btn-outline-primary pull-right' %>
+        </h5>
+        <% if @resource.recipes.many? %>
+          <ul class="nav nav-tabs card-header-tabs" role="tablist">
+            <% @resource.recipes.each.with_index do |recipe, idx| %>
+              <li class="nav-item">
+                <%= link_to recipe.name, '#' + dom_id(recipe), id: dom_id(recipe) + '-tab', class: ['nav-link', ('active' if idx.zero?)], data: {toggle: 'tab'}, role: 'tab', 'aria-controls': dom_id(recipe), 'aria-selected': idx.zero? %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+      <div class="tab-content">
+        <% @resource.recipes.each.with_index do |recipe, idx| %>
+          <div class="tab-pane fade <%= 'show active' if idx.zero? %>" id="<%= dom_id(recipe) %>" role="tabpanel" aria-labelledby="<%= dom_id(recipe) %>-tab">
+            <table class="table table-borderless m-0">
+              <tbody>
+              <% recipe.recipe_inputs.each do |input| %>
+                <tr>
+                  <td><%= input.amount %></td>
+                  <td>
+                    <%= link_to input.name.pluralize(input.amount), input %>
+                  </td>
+                  <td>
+                    <%= recipe.machine_process.per_minute(input.amount).to_pretty_s %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+              <tfoot>
+              <tr class="table-primary">
+                <th><%= recipe.output_amount %></th>
+                <th>
+                  <%= link_to recipe.output.name.pluralize(recipe.output_amount), recipe.output %>
+                </th>
+                <th>
+                  <%= recipe.machine_process.per_minute.to_pretty_s %>
+                </th>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%= link_to 'Add Another', action: :new %> |
-<%= link_to 'Edit', edit_resource_path(@resource) %> |
-<%= link_to 'Back', resources_path %>
-
-<%= react_component 'ResourceCalc', resourceId: @resource.id, treePath: resource_tree_resource_path(@resource) %>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+          <li class="nav-item">
+            <%= link_to 'Resources', '#resource-tree', id: 'resource-tree-tab', class: 'nav-link active', data: {toggle: 'tab'}, role: 'tab', 'aria-controls': 'resource-tree', 'aria-selected': true %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Processes', '#process-tree', id: 'process-tree-tab', class: 'nav-link', data: {toggle: 'tab'}, role: 'tab', 'aria-controls': 'process-tree', 'aria-selected': false %>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body tab-content">
+        <div class="tab-pane fade show active" id="resource-tree" role="tabpanel" aria-labelledby="resource-tree-tab">
+          <%= react_component 'ResourceCalc', resourceId: @resource.id, treePath: resource_tree_resource_path(@resource) %>
+        </div>
+        <div class="tab-pane fade" id="process-tree" role="tabpanel" aria-labelledby="process-tree-tab">
+          <%= react_component 'ResourceCalc', resourceId: @resource.id, treePath: process_tree_resource_path(@resource) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

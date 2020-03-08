@@ -19,14 +19,12 @@ class SatisfactoryCalculator
 
       label = "#{FormattedBigDecimal.new(amount)} #{name}"
 
-      # super(options).merge(
       {
           id:        resource.id,
           label:     label,
           link:      "/resources/#{resource.id}",
           parentIds: parent_ids
       }
-      # )
     end
   end
 
@@ -92,7 +90,7 @@ class SatisfactoryCalculator
 
   def self.process_tree(amount_per_minute, resource)
     recipe                 = resource.recipes.first # TODO alts?
-    process                = recipe.machine_processes.first
+    process = recipe.machine_process
     stack                  = [ProcessNode.new(amount_per_minute, process)]
     processes              = {
         process => ProcessNode.new(amount_per_minute, process)
@@ -117,7 +115,7 @@ class SatisfactoryCalculator
 
         input_amount_per_minute = amount_per_minute * process.per_minute(recipe_input.amount) / BigDecimal.new(process.per_minute)
 
-        input_process = input_recipe.machine_processes.first
+        input_process = input_recipe.machine_process
 
         stack << ProcessNode.new(input_amount_per_minute, input_process)
         input_node                   = processes[input_process]
