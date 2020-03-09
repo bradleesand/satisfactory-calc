@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import drawDag from '../packs/drawDag';
+import drawDag, * as dagOpts from '../packs/drawDag';
 import rd3 from 'react-d3-library';
 
 const RD3Component = rd3.Component;
@@ -41,12 +41,12 @@ class ResourceGraph extends React.Component {
     }
 
     graphConfig(props = this.props) {
-        return {
+        return _.merge({
             nodeRadius: props.nodeRadius,
             width: props.width || this.refs.container.clientWidth,
             height: props.height,
             padding: props.padding,
-        };
+        }, props.dagOptions);
     }
 
     render() {
@@ -60,6 +60,11 @@ class ResourceGraph extends React.Component {
 
 ResourceGraph.propTypes = {
     dagData: PropTypes.array, // TODO spec
+    dagOptions: PropTypes.shape({
+        layering: PropTypes.oneOf(_.keys(dagOpts.layerings)),
+        decorss: PropTypes.oneOf(_.keys(dagOpts.decrossings)),
+        coord: PropTypes.oneOf(_.keys(dagOpts.coords)),
+    }),
 
     nodeRadius: PropTypes.number,
     width: PropTypes.number,

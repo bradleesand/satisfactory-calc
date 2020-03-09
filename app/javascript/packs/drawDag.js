@@ -3,19 +3,19 @@ import * as d3_dag from 'd3-dag';
 
 const d3 = Object.assign({}, d3_base, d3_dag);
 
-const layerings = {
+export const layerings = {
     "Simplex (slow)": d3.layeringSimplex(),
     "Longest Path (fast)": d3.layeringLongestPath(),
     "Coffman Graham (medium)": d3.layeringCoffmanGraham(),
 };
 
-const decrossings = {
+export const decrossings = {
     "Optimal (slow)": d3.decrossOpt(),
     "Two Layer Opt (medium)": d3.decrossTwoLayer().order(d3.twolayerOpt()),
     "Two Layer (fast)": d3.decrossTwoLayer(),
 };
 
-const coords = {
+export const coords = {
     "Vertical (slow)": d3.coordVert(),
     "Minimum Curves (slow)": d3.coordMinCurve(),
     "Greedy (medium)": d3.coordGreedy(),
@@ -24,17 +24,16 @@ const coords = {
 
 const stratify = d3.dagStratify();
 
-const drawDag = function (parent, dagData, {nodeRadius = 50, width = 1100, height = 800, padding = 10,}) {
+const drawDag = function (parent, dagData, {
+    nodeRadius = 50, width = 1100, height = 800, padding = 10,
+    layering = "Longest Path (fast)", decross = "Optimal (slow)", coord = "Center (fast)",
+}) {
     const viewBox = [
         -nodeRadius - padding,
         -nodeRadius - padding,
         width + (2 * nodeRadius) + (2 * padding),
         height + (2 * nodeRadius) + (2 * padding),
     ].join(' ');
-
-    const layering = "Longest Path (fast)";
-    const decross = "Optimal (slow)";
-    const coord = "Greedy (medium)";
 
     const layout = d3.sugiyama()
         .size([width, height])
